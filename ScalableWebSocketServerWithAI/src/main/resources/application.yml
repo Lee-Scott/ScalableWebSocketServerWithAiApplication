@@ -1,0 +1,48 @@
+server:
+  port: 8080  # Change if needed
+
+spring:
+  application:
+    name: websocket-chat
+  datasource:
+    url: jdbc:postgresql://localhost:5432/chatdb
+    username: chatuser
+    password: chatpassword
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update  # Options: create, update, validate, none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true  # Enable query logging (disable in production)
+  security:
+    jwt:
+      secret: your-secret-key  # Change this for JWT authentication
+      expiration: 86400000  # 24 hours in milliseconds
+
+  cache:
+    type: redis  # Caching enabled using Redis
+
+  redis:
+    host: localhost
+    port: 6379
+    password: ""  # If Redis has a password, set it here
+
+  rabbitmq:  # If using RabbitMQ instead of Redis Pub/Sub
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics"
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: DEBUG  # Log security-related events
+    io.netty: INFO  # Log WebSocket events
